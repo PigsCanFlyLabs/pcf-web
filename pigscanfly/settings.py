@@ -123,3 +123,6 @@ STATIC_ROOT = 'static'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# STRIPE SETTINGS
+STRIPE_API_KEY = "sk_test_51MGgqqH3tqhFx4rg3scW0nEbQgv4aXCCvjdWkSYcCA5F15akyusRbkU6lzlIqW6XQmCSDvW9CKgKWmWFqyav5zs100rcmjUUDL"

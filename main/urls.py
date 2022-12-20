@@ -9,4 +9,5 @@ urlpatterns = [
     path('products', views.ProductsView.as_view(), name="products"),
     path('subscribe', views.SubscribeView.as_view(), name="subscribe"),
     path('product', views.ProductView.as_view(), name="product"),
+    path('services', views.ServicesView.as_view(), name="services"),
 ]
