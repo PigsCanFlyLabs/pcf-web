@@ -65,6 +65,14 @@
                             <li><a href="{% url 'contact' %}">Contact Us</a></li>
                             <li><a href="{% url 'products' %}">Products</a></li>
                             <li><a href="{% url 'subscribe' %}">Subscribe</a></li>
+
+                            {% if request.user.is_authenticated %}
+                                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            {% else %}
+                                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                                <li><a href="{% url 'login' %}">Log In</a></li>
+                            {% endif %}
                         </ul>        
                         <a class='menu-trigger'>
                             <span>Menu</span>

@@ -17,7 +17,7 @@
     <!-- ***** Main Banner Area End ***** -->
 
     <!-- ***** Space Beaver Area Starts ***** -->
-    <section class="section" id="explore">
+    <section class="" id="explore">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -76,7 +76,7 @@
     </section>
     <!-- ***** Space Beaver Area Ends ***** -->
 
-    <section class="section" id="women">
+    <section class="" id="books">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -90,119 +90,47 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="women-item-carousel">
-                        <div class="owl-women-item owl-carousel">
+                    <div class="books-item-carousel">
+                        <div class="owl-books-item owl-carousel">
 
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
+                            {% for product in products %}
+                                <div class="item">
+                                    <div class="thumb">
+                                        <div class="hover-content">
+                                            <ul>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-eye"></i></a></li>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <img src="{{ product.image.url }}" alt="">
+                                    </div>
+                                    <div class="down-content">
+                                        <h4>{{ product.name }}</h4>
+                                        <span>{{ product.price }}</span>
+                                        <ul class="stars">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
                                         </ul>
                                     </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
                                 </div>
-                                <div class="down-content">
-                                    <h4>Book name</h4>
-                                    <span>$75.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            {% endfor %}
 
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Book name</h4>
-                                    <span>$75.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Book name</h4>
-                                    <span>$75.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Book name</h4>
-                                    <span>$75.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ***** Women Area Ends ***** -->
 
-    <!-- ***** Kids Area Starts ***** -->
-    <section class="section" id="kids">
+    <section class="" id="products">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="section-heading">
+                    <div class="section-heading text-left">
                         <h2>Other Products</h2>
                         <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi, veritatis.</span>
                     </div>
@@ -212,162 +140,46 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="kid-item-carousel">
-                        <div class="owl-kid-item owl-carousel">
+                    <div class="products-item-carousel">
+                        <div class="owl-products-item owl-carousel">
 
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
+                            {% for product in products %}
+
+                                <div class="item">
+                                    <div class="thumb">
+                                        <div class="hover-content">
+                                            <ul>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-eye"></i></a></li>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <img src="{{ product.image.url }}" alt="">
+                                    </div>
+                                    <div class="down-content">
+                                        <h4>{{ product.name }}</h4>
+                                        <span>{{ product.price }}</span>
+                                        <ul class="stars">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
                                         </ul>
                                     </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
                                 </div>
-                                <div class="down-content">
-                                    <h4>Product name</h4>
-                                    <span>$80.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Product name</h4>
-                                    <span>$80.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            {% endfor %}
 
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Product name</h4>
-                                    <span>$80.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="{% static 'assets/images/product.jpg' %}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Product name</h4>
-                                    <span>$80.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ***** Kids Area Ends ***** -->
-
-    <!-- ***** Explore Area Starts ***** -->
-    <!-- <section class="section" id="explore">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="left-content">
-                        <h2>Explore Our Products</h2>
-                        <div class="quote">
-                        </div>
-                        <div class="main-border-button">
-                            <a href="products.html">Discover More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="right-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="leather">
-                                    <h4>Leather Bags</h4>
-                                    <span>Latest Collection</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="first-image">
-                                    <img src="{% static 'assets/images/explore-image-01.jpg' %}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="second-image">
-                                    <img src="{% static 'assets/images/explore-image-02.jpg' %}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="types">
-                                    <h4>Different Types</h4>
-                                    <span>Over 304 Products</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- ***** Explore Area Ends ***** -->
 
     <!-- ***** Social Area Starts ***** -->
-    <section class="section" id="social">
+    <section class="" id="social">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

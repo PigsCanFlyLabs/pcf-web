@@ -48,13 +48,13 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="left-images">
-                    <img src="{% static 'assets/images/single-product-01.jpg' %}" alt="">
+                    <img src="{{ product.image.url }}" alt="">
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="right-content">
-                    <h4>Product name</h4>
-                    <span class="price">$75.00</span>
+                    <h4>{{ product.name }}</h4>
+                    <span class="price">{{ product.price }}</span>
                     <ul class="stars">
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
@@ -62,12 +62,9 @@
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                     </ul>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt
-                        ut labore.</span>
-                    <div class="quote">
-                        <i class="fa fa-quote-left"></i>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
-                    </div>
+                    <span>
+                        {{ product.description }}
+                    </span>
                     <div class="quantity-content">
                         <div class="left-content">
                             <h6>No. of Orders</h6>
@@ -75,15 +72,15 @@
                         <div class="right-content">
                             <div class="quantity buttons_added">
                                 <input type="button" value="-" class="minus" onclick="subtractQuantity()">
-                                <input type="number" step="1" min="1" max="" name="quantity" id="quantity" value="1"
+                                <input type="number" step="1" min="1" max="" name="quantity" id="quantity" onchange="calculateTotal()" value="1"
                                     title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
                                 <input type="button" value="+" class="plus" onclick="addQuantity()">
                             </div>
                         </div>
                     </div>
                     <div class="total">
-                        <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                        <h4 class="calc-total">Total: </h4>
+                        <div class="main-border-button"><button onclick="addToCart()" style="margin-top: 0;">Add To Cart</button></div>
                     </div>
                 </div>
             </div>
@@ -283,14 +280,31 @@
 
 {% block custom_js %}
 <script>
-    const quantityInput = $("input#quantity")
+    const quantityInput = $("input#quantity");
+    calculateTotal(); // once at page load.
+
     function addQuantity() {
         quantityInput.val(parseInt(quantityInput.val()) + 1);
+        calculateTotal();
     }
+
     function subtractQuantity() {
         if (quantityInput.val() > 1) {
             quantityInput.val(parseInt(quantityInput.val()) - 1);
+            calculateTotal();
         }
     }
+
+    function calculateTotal() {
+        let total = (quantityInput.val() * parseFloat("{{ product.price }}")).toFixed(2);
+        document.querySelector('h4.calc-total').innerHTML = `Total: $${total}`;
+        return total;
+    }
+
+    function addToCart() {
+        price = calculateTotal();
+        window.location.href = `{% url 'add-to-cart' product_id=product.pk price="price_holder" %}`.replace('price_holder', price);
+    }
+
 </script>
 {% endblock custom_js %}
