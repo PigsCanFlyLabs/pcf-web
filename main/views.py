@@ -1,12 +1,16 @@
-from django.shortcuts import render, redirect, reverse
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User
-from django.views import View
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.staticfiles import finders
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
-from main.utils import generate_username
-from main.models import Cart, Product, CartProduct
+from django.views import View
+
+from main.models import Cart, CartProduct, Product
 from main.payments import Payments
+from main.utils import generate_username
 
 
 # Create your views here.
@@ -27,9 +31,32 @@ class ContactView(View):
 
 
 class ProductsView(View):
+    def get(self, request, category=None):
+        if "category" not in request.GET and category is None:
+            return render(request, 'products.html', context={
+                'title': 'Products',
+                'type': 'producs',
+                'products': Product.objects.all()
+            })
+        else:
+            cat = category or request.GET["category"]
+            cat_name = Product.Categories(cat).label
+            extra_style = None
+            bg_img_name = f"assets/images/{cat_name}.jpg".lower()
+            if finders.find(f"{bg_img_name}"):
+                extra_style = f"background-image: url('/static/{bg_img_name}');"
+            return render(request, 'products.html', context={
+                'title': f'Products - {cat_name}',
+                'type': cat_name,
+                'products': Product.objects.filter(cat=cat),
+                'extra_style': extra_style
+            })
+
+
+class ServicesView(View):
     def get(self, request):
-        products = Product.objects.all()
-        return render(request, 'products.html', context={'title': 'Products', 'products': products})
+        products = Product.objects.filter(cat=Product.Categories.SERVICES)
+        return render(request, 'products.html', context={'title': 'Services', 'products': products})
 
 
 class SubscribeView(View):
@@ -68,7 +95,7 @@ class SignupView(View):
 
             login(request, user)
             return redirect('home')
-        
+
 
 class LoginView(View):
     def get(self, request):
@@ -81,14 +108,15 @@ class LoginView(View):
 
         try:
             user = User.objects.get(email=email)
-            user = authenticate(request, email=email, username=user.username, password=password)
+            user = authenticate(request, email=email,
+                                username=user.username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
                 return redirect(reverse('login') + '?valid=false')
         except User.DoesNotExist:
-                return redirect(reverse('login') + '?valid=false')
+            return redirect(reverse('login') + '?valid=false')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -96,13 +124,14 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('login')
-        
+
 
 @method_decorator(login_required, name='dispatch')
 class CartView(View):
     def get(self, request):
         cart = Cart.objects.get(user=request.user)
-        total_price = sum(list(cart.products.all().values_list('price', flat=True)))
+        total_price = sum(
+            list(cart.products.all().values_list('price', flat=True)))
         return render(request, 'cart.html', context={'title': 'Cart', 'products': cart.products.all(), 'total_price': total_price})
 
 
@@ -116,7 +145,8 @@ class AddToCartView(View):
         try:
             cart_product = CartProduct.objects.get(cart=cart, product=product)
         except CartProduct.DoesNotExist:
-            cart_product = CartProduct.objects.create(cart=cart, product=product, price=price, quantity=quantity)
+            cart_product = CartProduct.objects.create(
+                cart=cart, product=product, price=price, quantity=quantity)
             cart_product.save()
 
         cart.products.add(cart_product)

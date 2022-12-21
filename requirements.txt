@@ -1,0 +1,7 @@
+stripe
+urllib3
+requests
+pytz
+django
+django-configurations
+django-stubs[compatible-mypy]

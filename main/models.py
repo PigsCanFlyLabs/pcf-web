@@ -1,33 +1,80 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.templatetags.static import static
+from django.urls import reverse
+
 from main.payments import Payments
 
 
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=250)
-    price = models.FloatField(default=1.0)
     description = models.TextField(default="No description.")
-    product_id = models.CharField(max_length=250, null=True)
-
-    product_type_choices = [
-        ('Space Beaver', 'Space Beaver'),
-        ('Book', 'Book'),
-        ('Others', 'Others'),
-    ]
-
-    type = models.CharField(max_length=12, choices=product_type_choices)
-
     image = models.ImageField(upload_to='product-images')
+    external_product_id = models.CharField(max_length=250, null=True)
+    product_id = models.AutoField(primary_key=True)
 
-    def generate_product_id(self):
-        product_id = Payments.create_product(self.name, self.description, self.price, currency="usd")
+    def generate_external_product_id(self):
+        external_product_id = Payments.create_product(
+            self.name, self.description, self.price, currency="usd")
         return product_id
-    
+
     def save(self, *args, **kwargs):
-        if not self.product_id:
-            self.product_id = self.generate_product_id()
+        if not self.external_product_id or True:
+            self.external_product_id = self.generate_external_product_id()
         super().save(*args, **kwargs)
+
+    class Modes(models.TextChoices):
+        PAYMENT = 'P', 'payment'
+        SUBSCRIPTION = 'S', 'subscription'
+
+    class TaxTypes(models.TextChoices):
+        # See https://stripe.com/docs/tax/tax-categories
+        GOODS = 'txcd_99999999', 'Goods'
+        SERVICES = 'txcd_20030000', 'Services'
+        HOSTING = 'txcd_10701100', 'Hosting'
+        PHONES = 'txcd_34021000', 'Phones'
+        BOOKS = 'txcd_35010000', 'Books'  # Physical books
+
+    class Categories(models.TextChoices):
+        BOOKS = 'B', "Books"
+        SERVICES = 'S', "Services"
+        ELECTRONICS = 'E', "Electronics"
+        MISC = 'M', "Merch"
+
+    name = models.CharField(max_length=250)
+    page = models.CharField(
+        max_length=250,
+        blank=True)
+    price = models.IntegerField(default=0)
+    image = models.ImageField(
+        upload_to='data_here',
+        blank=True)
+    image_name = models.CharField(max_length=250, default="", blank=True)
+    tax_code = models.CharField(
+        max_length=20,
+        choices=TaxTypes.choices,
+        default=TaxTypes.GOODS)
+    cat = models.CharField(
+        max_length=2,
+        choices=Categories.choices,
+        default=Categories.MISC)
+    mode = models.CharField(
+        max_length=1,
+        choices=Modes.choices,
+        default=Modes.PAYMENT)
+
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
+
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'product_id': self.product_id})
+
+    def get_image_url(self):
+        if self.image is not None:
+            return self.image.url
+        else:
+            return static(f"images/{self.image_name}")
 
     def __str__(self) -> str:
         return f'{self.name}'
@@ -38,7 +85,8 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField('CartProduct', related_name='cart_products')
+    products = models.ManyToManyField(
+        'CartProduct', related_name='cart_products')
 
     def clear(self):
         self.products.remove(*self.products.all())
@@ -54,11 +102,12 @@ class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField(default=1)
-    price = models.FloatField()
+    price = models.IntegerField()
     price_id = models.CharField(max_length=250, null=True)
 
     def generate_price_id(self):
-        price_id = Payments.create_price(self.product.product_id, self.product.price, currency="usd")
+        price_id = Payments.create_price(
+            self.product.product_id, self.product.price, currency="usd")
         return price_id
 
     def save(self, *args, **kwargs):

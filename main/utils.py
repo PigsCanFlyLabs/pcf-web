@@ -1,5 +1,7 @@
-from django.contrib.auth.models import User
 import secrets
+
+from django.contrib.auth.models import User
+
 
 def generate_username(email: str):
     username = email.split('@')[0]
