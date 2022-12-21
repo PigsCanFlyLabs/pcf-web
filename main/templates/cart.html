@@ -32,13 +32,13 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h6>${{ product.product.price }}</h6>
+                                    <h6>${{ product.product.get_display_price }}</h6>
                                 </td>
                                 <td>
                                     <h6>{{ product.quantity }}</h6>
                                 </td>
                                 <td>
-                                    <h6>{{ product.price }}</h6>
+                                    <h6>{{ product.total_display_price }}</h6>
                                 </td>
                                 <td class="main-border-button">
                                     <a href="{% url 'remove-from-cart' product.pk %}" class="" style="margin-top: 0;">X</button>

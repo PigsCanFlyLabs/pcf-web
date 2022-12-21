@@ -1,6 +1,7 @@
 import stripe
 from django.conf import settings
 from django.urls import reverse
+from typing import Optional
 
 
 class Payments:
@@ -13,10 +14,17 @@ class Payments:
         return product['id']
 
     @classmethod
-    def create_price(cls, product_id: str, price: float, currency: str = "usd") -> str:
-        price = int(price * 100)  # Convert to cents
-        product_price = stripe.Price.create(
-            unit_amount=price, currency=currency, product=product_id)
+    def create_price(cls, product_id: str, price: int, currency: str = "usd", interval: Optional[str] = None) -> str:
+        product_price = None
+        if interval is None:
+            product_price = stripe.Price.create(
+                unit_amount=price, currency=currency, product=product_id
+            )
+        else:
+            product_price = stripe.Price.create(
+                unit_amount=price, currency=currency, product=product_id,
+                recurring = {"interval": interval}
+            )            
         return product_price['id']
 
     @classmethod
@@ -31,7 +39,7 @@ class Payments:
 
         checkout = stripe.checkout.Session.create(
             line_items=items,
-            mode='payment',
+            mode='subscription',
             success_url=request.build_absolute_uri(
                 reverse('checkout-success')),
             cancel_url=request.build_absolute_uri(reverse('checkout-cancel')),

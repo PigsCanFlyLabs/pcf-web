@@ -130,26 +130,33 @@ class LogoutView(View):
 class CartView(View):
     def get(self, request):
         cart = Cart.objects.get(user=request.user)
-        total_price = sum(
-            list(cart.products.all().values_list('price', flat=True)))
-        return render(request, 'cart.html', context={'title': 'Cart', 'products': cart.products.all(), 'total_price': total_price})
+        print(f"Got cart {cart} with {cart.products.all()}")
+        total_price = sum(map(lambda x: x.total_price(), cart.products.all()))
+        total_display_price = "{0:.2f}".format(total_price / 100)
+        return render(request, 'cart.html', context={'title': 'Cart', 'products': cart.products.all(), 'total_price': total_display_price})
 
 
 @method_decorator(login_required, name='dispatch')
 class AddToCartView(View):
-    def get(self, request, product_id, price):
+    def get(self, request, product_id, quantity):
         product = Product.objects.get(pk=product_id)
-        cart = Cart.objects.get(user=request.user)
-        quantity = int(float(price) / product.price)
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except:
+            cart = Cart.objects.create(user=request.user)
+            cart.save()
+
+        quantity = quantity
 
         try:
             cart_product = CartProduct.objects.get(cart=cart, product=product)
         except CartProduct.DoesNotExist:
             cart_product = CartProduct.objects.create(
-                cart=cart, product=product, price=price, quantity=quantity)
+                cart=cart, product=product, quantity=quantity)
             cart_product.save()
 
         cart.products.add(cart_product)
+        cart.save()
         return redirect('cart')
 
 

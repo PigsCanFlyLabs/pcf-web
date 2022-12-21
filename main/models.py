@@ -11,13 +11,13 @@ class Product(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(default="No description.")
     image = models.ImageField(upload_to='product-images')
-    external_product_id = models.CharField(max_length=250, null=True)
+    external_product_id = models.CharField(max_length=250, null=True, blank=True)
     product_id = models.AutoField(primary_key=True)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
             self.name, self.description, self.price, currency="usd")
-        return product_id
+        return external_product_id
 
     def save(self, *args, **kwargs):
         if not self.external_product_id or True:
@@ -102,14 +102,18 @@ class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField(default=1)
-    price = models.IntegerField()
     price_id = models.CharField(max_length=250, null=True)
 
     def generate_price_id(self):
-        price_id = Payments.create_price(
-            self.product.product_id, self.product.price, currency="usd")
+        if self.product.mode == Product.Modes.PAYMENT:
+            price_id = Payments.create_price(
+                self.product.external_product_id, self.product.price, currency="usd")
+        else:
+            price_id = Payments.create_price(
+                self.product.external_product_id, self.product.price, currency="usd",
+                interval="year"
+            )
         return price_id
-
     def save(self, *args, **kwargs):
         if not self.price_id:
             self.price_id = self.generate_price_id()
@@ -120,3 +124,9 @@ class CartProduct(models.Model):
 
     def __repr__(self) -> str:
         return f'<CartProduct: {self.product.name}>'
+
+    def total_price(self):
+        return (self.product.price * self.quantity)
+
+    def total_display_price(self):
+        return "{0:.2f}".format(self.total_price() / 100)
