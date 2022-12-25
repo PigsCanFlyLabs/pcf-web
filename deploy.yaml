@@ -16,13 +16,11 @@ spec:
         app: pcfweb
     spec:
       containers:
-        - image: holdenk/pcfweb:v0.0.1
+        - image: holdenk/pcfweb:v0.0.1k
           name: pcfweb
           envFrom:
           - secretRef:
               name: pcfweb-secret
-          - configMapRef:
-              name: pcfweb-config
           ports:
             - containerPort: 80
               name: web
@@ -86,23 +84,5 @@ spec:
             backend:
               service:
                 name:  web-svc
-                port:
-                  number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: pcf-web-http-ingress
-  namespace: pcfweb
-spec:
-  rules:
-    - host: www.pigscanfly.ca
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: web-svc
                 port:
                   number: 80

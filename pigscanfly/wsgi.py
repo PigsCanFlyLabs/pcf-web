@@ -13,7 +13,9 @@ from configurations.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pigscanfly.settings')
 
-os.environ.setdefault('DJANGO_CONFIGURATION', 'Dev')
+os.environ.setdefault(
+    'DJANGO_CONFIGURATION',
+    os.getenv("ENVIRONMENT", 'Dev'))
 
 
 application = get_wsgi_application()

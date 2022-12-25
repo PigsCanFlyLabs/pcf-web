@@ -5,3 +5,6 @@ pytz
 django
 django-configurations
 django-stubs[compatible-mypy]
+mysqlclient
+gunicorn
+Pillow

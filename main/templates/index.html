@@ -73,13 +73,13 @@
     </section>
     <!-- ***** Space Beaver Area Ends ***** -->
 
+    {% for (category, products) in highlight %}
     <section class="" id="books">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="section-heading">
-                        <h2>My Books</h2>
-                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, voluptatibus.</span>
+                        <h2>Our {{ category }}</h2>
                     </div>
                 </div>
             </div>
@@ -122,58 +122,7 @@
             </div>
         </div>
     </section>
-
-    <section class="" id="products">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading text-left">
-                        <h2>Other Products</h2>
-                        <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi, veritatis.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="products-item-carousel">
-                        <div class="owl-products-item owl-carousel">
-
-                            {% for product in products %}
-
-                                <div class="item">
-                                    <div class="thumb">
-                                        <div class="hover-content">
-                                            <ul>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <img src="{{ product.image.url }}" alt="">
-                                    </div>
-                                    <div class="down-content">
-                                        <h4>{{ product.name }}</h4>
-                                        <span>{{ product.price }}</span>
-                                        <ul class="stars">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% endfor %}
 
     <!-- ***** Social Area Starts ***** -->
     <section class="" id="social">

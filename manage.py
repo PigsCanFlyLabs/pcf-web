@@ -20,6 +20,8 @@ def main():
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pigscanfly.settings')
-    os.environ.setdefault('DJANGO_CONFIGURATION', 'Dev')
+    os.environ.setdefault(
+        'DJANGO_CONFIGURATION',
+        os.getenv("ENVIRONMENT", 'Dev'))
 
     main()

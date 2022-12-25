@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
 
 from typing import *
 
@@ -21,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Base(Configuration):
+    LOGIN_URL = 'login'
+
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -33,7 +36,7 @@ class Base(Configuration):
     MEDIA_ROOT = "media"
     MEDIA_URL = '/media/'
 
-    ALLOWED_HOSTS: List[str] = []
+    ALLOWED_HOSTS: List[str] = ['*']
 
     # Application definition
 
@@ -168,7 +171,7 @@ class Prod(Base):
 
     @property
     def DATABASES(self):
-        engine = "django.db.backends.postgresql"
+        engine = "django.db.backends.mysql"
         return {
             "default": {
                 "ENGINE": engine,
@@ -176,7 +179,6 @@ class Prod(Base):
                 "USER": os.getenv("DBUSER"),
                 "PASSWORD": os.getenv("DBPASSWORD"),
                 "HOST": os.getenv("DBHOST"),
-                "PORT": os.getenv("DBPORT"),
                 "ATOMIC_REQUESTS": True,
             }
         }

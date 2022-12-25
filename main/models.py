@@ -40,7 +40,7 @@ class Product(models.Model):
         BOOKS = 'B', "Books"
         SERVICES = 'S', "Services"
         ELECTRONICS = 'E', "Electronics"
-        MISC = 'M', "Merch"
+        MERCH = 'M', "Merch"
 
     name = models.CharField(max_length=250)
     page = models.CharField(
@@ -58,7 +58,7 @@ class Product(models.Model):
     cat = models.CharField(
         max_length=2,
         choices=Categories.choices,
-        default=Categories.MISC)
+        default=Categories.MERCH)
     mode = models.CharField(
         max_length=1,
         choices=Modes.choices,

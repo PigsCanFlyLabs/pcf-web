@@ -16,8 +16,22 @@ from main.utils import generate_username
 # Create your views here.
 class HomeView(View):
     def get(self, request):
-        products = Product.objects.all()
-        return render(request, 'index.html', context={'title': 'Pigs Can Fly Labs', 'products': products})
+        merch = Product.objects.filter(cat = Product.Categories.MERCH)[:3]
+        electronics = Product.objects.filter(cat = Product.Categories.ELECTRONICS)[:3]
+        services = Product.objects.filter(cat = Product.Categories.SERVICES)[:3]
+        books = Product.objects.filter(cat = Product.Categories.BOOKS)[:3]
+        highlight = [
+            ('Services', services),
+            ('Merch', merch),
+            ('Electronics', electronics),
+            ('Books', books)
+        ]
+        return render(
+            request, 'index.html',
+            context={
+                'title': 'Pigs Can Fly Labs',
+                'highlight': highlight
+            })
 
 
 class AboutView(View):
