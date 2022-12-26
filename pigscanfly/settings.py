@@ -163,11 +163,7 @@ class Prod(Base):
 
     @property
     def STRIPE_API_KEY(self):
-        return os.getenv("STRIPE_API_KEY")
-
-    @property
-    def STRIPE_SECRET_KEY(self):
-        return os.getenv("STRIPE_SECRET_KEY")
+        return os.getenv("STRIPE_LIVE_SECRET_KEY")
 
     @property
     def DATABASES(self):
