@@ -16,21 +16,14 @@ from main.utils import generate_username
 # Create your views here.
 class HomeView(View):
     def get(self, request):
-        merch = Product.objects.filter(cat = Product.Categories.MERCH)[:3]
-        electronics = Product.objects.filter(cat = Product.Categories.ELECTRONICS)[:3]
-        services = Product.objects.filter(cat = Product.Categories.SERVICES)[:3]
-        books = Product.objects.filter(cat = Product.Categories.BOOKS)[:3]
-        highlight = [
-            ('Services', services),
-            ('Merch', merch),
-            ('Electronics', electronics),
-            ('Books', books)
-        ]
+        highlights = map(lambda cat: ((cat, cat.label), list(Product.objects.filter(cat = cat)[:3])), Product.Categories)
+        # Only show categories with elements in them.
+        highlights = list(filter(lambda x: len(x[1]) != 0, highlights))
         return render(
             request, 'index.html',
             context={
                 'title': 'Pigs Can Fly Labs',
-                'highlight': highlight
+                'highlights': highlights,
             })
 
 
@@ -54,7 +47,11 @@ class ProductsView(View):
             })
         else:
             cat = category or request.GET["category"]
-            cat_name = Product.Categories(cat).label
+            try:
+                cat_name = Product.Categories(cat).label
+            except:
+                cat = cat.upper()
+                cat_name = Product.Categories(cat).label
             extra_style = None
             bg_img_name = f"assets/images/{cat_name}.jpg".lower()
             if finders.find(f"{bg_img_name}"):
@@ -70,7 +67,10 @@ class ProductsView(View):
 class ServicesView(View):
     def get(self, request):
         products = Product.objects.filter(cat=Product.Categories.SERVICES)
-        return render(request, 'products.html', context={'title': 'Services', 'products': products})
+        return render(request, 'products.html', context={
+            'title': 'Services',
+            'type': "Services",
+            'products': products})
 
 
 class SubscribeView(View):

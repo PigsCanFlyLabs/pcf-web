@@ -8,7 +8,7 @@
                 <div class="col-lg-12">
                     <div class="inner-content">
                         <h2>Pigs Can Fly Labs</h2>
-                        <span>Value Priced Queer and Nerdy Stuff</span>
+			{% include 'components/headline.html' %}
                     </div>
                 </div>
             </div>
@@ -72,14 +72,14 @@
         </div>
     </section>
     <!-- ***** Space Beaver Area Ends ***** -->
-
-    {% for (category, products) in highlight %}
+    {{highlights}}
+    {% for cat_label, products in highlights %}
     <section class="" id="books">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="section-heading">
-                        <h2>Our {{ category }}</h2>
+                      <h2><a href="{% url 'products' cat_label.0 %}"> Our {{cat_label.1}}</a></h2>
                     </div>
                 </div>
             </div>
@@ -89,8 +89,8 @@
                 <div class="col-lg-12">
                     <div class="books-item-carousel">
                         <div class="owl-books-item owl-carousel">
-
-                            {% for product in products %}
+			  {{products}}
+			  {% for product in products %}
                                 <div class="item">
                                     <div class="thumb">
                                         <div class="hover-content">

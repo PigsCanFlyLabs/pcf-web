@@ -84,7 +84,11 @@ class Product(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        )
     products = models.ManyToManyField(
         'CartProduct', related_name='cart_products')
 
@@ -100,7 +104,6 @@ class Cart(models.Model):
 
 class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField(default=1)
     price_id = models.CharField(max_length=250, null=True)
 
