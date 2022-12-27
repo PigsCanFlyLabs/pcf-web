@@ -4,6 +4,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 
 from main.payments import Payments
+from typing import Optional
 
 
 # Create your models here.
@@ -64,17 +65,20 @@ class Product(models.Model):
         choices=Modes.choices,
         default=Modes.PAYMENT)
 
-    def get_display_price(self):
+    def get_display_price(self) -> str:
         return "{0:.2f}".format(self.price / 100)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse('product', kwargs={'product_id': self.product_id})
 
-    def get_image_url(self):
-        if self.image is not None:
+    def get_image_url(self) -> Optional[str]:
+        try:
             return self.image.url
-        else:
-            return static(f"images/{self.image_name}")
+        except:
+            if self.image_name is not None:
+                return static(f"images/{self.image_name}")
+            else:
+                return None
 
     def __str__(self) -> str:
         return f'{self.name}'

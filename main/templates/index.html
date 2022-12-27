@@ -72,7 +72,6 @@
         </div>
     </section>
     <!-- ***** Space Beaver Area Ends ***** -->
-    {{highlights}}
     {% for cat_label, products in highlights %}
     <section class="" id="books">
         <div class="container">
@@ -89,31 +88,19 @@
                 <div class="col-lg-12">
                     <div class="books-item-carousel">
                         <div class="owl-books-item owl-carousel">
-			  {{products}}
 			  {% for product in products %}
+			        <a href="{% url 'product' product.pk %}">
                                 <div class="item">
                                     <div class="thumb">
-                                        <div class="hover-content">
-                                            <ul>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
-                                            </ul>
                                         </div>
-                                        <img src="{{ product.image.url }}" alt="">
+                                        <img src="{{ product.get_image_url }}" alt="">
                                     </div>
                                     <div class="down-content">
                                         <h4>{{ product.name }}</h4>
                                         <span>{{ product.price }}</span>
-                                        <ul class="stars">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
                                     </div>
                                 </div>
+				</a>
                             {% endfor %}
 
                         </div>
