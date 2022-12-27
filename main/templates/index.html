@@ -55,14 +55,18 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="second-image">
+                              <div class="second-image">
+				<a href="{% url 'services' %}">
                                   <img src="{% static 'assets/images/servers.jpg' %}" alt="SpaceBeaver Logo" style="width:200px;height:200px">
+				  </a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="types">
+                              <div class="types">
+				<a href="{% url 'services' %}">
                                     <h4>IP Transit</h4>
                                     <span>Low-Commit backup transit in FMT2</span>
+				    </a>
                                 </div>
                             </div>
                         </div>
@@ -92,17 +96,15 @@
 			        <a href="{% url 'product' product.pk %}">
                                 <div class="item">
                                     <div class="thumb">
-                                        </div>
-                                        <img src="{{ product.get_image_url }}" alt="">
+                                      <img src="{{ product.get_image_url }}" alt="">
                                     </div>
                                     <div class="down-content">
                                         <h4>{{ product.name }}</h4>
-                                        <span>{{ product.price }}</span>
+                                        <span>{{ product.get_display_price }}</span>
                                     </div>
                                 </div>
 				</a>
                             {% endfor %}
-
                         </div>
                     </div>
                 </div>

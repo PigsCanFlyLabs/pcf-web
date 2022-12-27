@@ -76,7 +76,7 @@ class Product(models.Model):
             return self.image.url
         except:
             if self.image_name is not None:
-                return static(f"images/{self.image_name}")
+                return static(f"assets/images/{self.image_name}")
             else:
                 return None
 
@@ -107,6 +107,7 @@ class Cart(models.Model):
 
 
 class CartProduct(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField(default=1)
     price_id = models.CharField(max_length=250, null=True)
