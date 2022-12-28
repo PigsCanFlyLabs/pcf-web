@@ -57,7 +57,7 @@
                     <span class="price">{{ product.get_display_price }}</span>
                     <span>
 		      {% autoescape off %}
-                      {{ product.description }}
+                      {{ product.get_display_text }}
 		      {% endautoescape %}
                     </span>
                     <div class="quantity-content">
@@ -76,6 +76,9 @@
                     <div class="total">
                         <h4 class="calc-total">Total: </h4>
                         <div class="main-border-button"><button onclick="addToCart()" style="margin-top: 0;">Add To Cart</button></div>
+			{% for name, link in product.alt_links %}
+			<div class="main-border-button"><a href="{link}" class="altbtn">{name}</a></div>
+			{% endfor %}
                     </div>
                 </div>
             </div>

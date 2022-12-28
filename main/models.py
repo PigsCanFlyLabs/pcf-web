@@ -12,8 +12,11 @@ class Product(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(default="No description.")
     image = models.ImageField(upload_to='product-images')
-    external_product_id = models.CharField(max_length=250, null=True, blank=True)
+    external_product_id = models.CharField(max_length=250, blank=True, null=True)
     product_id = models.AutoField(primary_key=True)
+    isbn = models.CharField(max_length=14, blank=True, null=True)
+    kickstarter = models.CharField(max_length=200, blank=True, null=True)
+    kindle_link = models.CharField(max_length=200, blank=True, null=True)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
@@ -86,6 +89,19 @@ class Product(models.Model):
     def __repr__(self) -> str:
         return f'<Product: {self.name}>'
 
+    def alt_links(self):
+        links = {}
+        if self.isbn is not None:
+            links["Read on O'Reilly Safari (free trial)"] = "https://www.tkqlhce.com/click-7645222-14045081"
+        if self.kindle_link is not None:
+            links["Buy on Kindle (e-book)"] = self.kindle_link
+        return links
+
+    def get_display_text(self):
+        if self.isbn is not None:
+            return f"{self.description}<p>All of Holden's books are avaible signed on request</p>"
+        else:
+            return self.description
 
 class Cart(models.Model):
     user = models.OneToOneField(
