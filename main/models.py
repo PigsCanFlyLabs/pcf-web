@@ -89,12 +89,16 @@ class Product(models.Model):
     def __repr__(self) -> str:
         return f'<Product: {self.name}>'
 
-    def alt_links(self):
-        links = {}
-        if self.isbn is not None:
-            links["Read on O'Reilly Safari (free trial)"] = "https://www.tkqlhce.com/click-7645222-14045081"
-        if self.kindle_link is not None:
-            links["Buy on Kindle (e-book)"] = self.kindle_link
+    def get_alt_links(self):
+        links = []
+        if self.isbn is not None and self.isbn != "":
+            links.append((
+                "Read on O'Reilly Safari (free trial)",
+                "https://www.tkqlhce.com/click-7645222-14045081"))
+        if self.kindle_link is not None and self.kindle_link != "":
+            links.append((
+                "Buy on Kindle (e-book)",
+                self.kindle_link))
         return links
 
     def get_display_text(self):

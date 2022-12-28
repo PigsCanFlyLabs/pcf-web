@@ -76,8 +76,8 @@
                     <div class="total">
                         <h4 class="calc-total">Total: </h4>
                         <div class="main-border-button"><button onclick="addToCart()" style="margin-top: 0;">Add To Cart</button></div>
-			{% for name, link in product.alt_links %}
-			<div class="main-border-button"><a href="{link}" class="altbtn">{name}</a></div>
+			{% for alt_link_name, alt_link in product.get_alt_links %}
+			<div class="main-border-button"><a href="{{alt_link}}" class="altbtn">{{alt_link_name}}</a></div>
 			{% endfor %}
                     </div>
                 </div>
