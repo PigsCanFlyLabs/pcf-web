@@ -16,7 +16,9 @@ from main.utils import generate_username
 # Create your views here.
 class HomeView(View):
     def get(self, request):
-        highlights = map(lambda cat: ((cat, cat.label), list(Product.objects.filter(cat = cat)[:3])), Product.Categories)
+        highlights = map(
+            lambda cat: ((cat, cat.label), list(Product.objects.filter(cat = cat).order_by('-price')[:3])),
+            Product.Categories)
         # Only show categories with elements in them.
         highlights = list(filter(lambda x: len(x[1]) != 0, highlights))
         return render(
@@ -31,6 +33,13 @@ class AboutView(View):
     def get(self, request):
         return render(request, 'about.html', context={'title': 'About Us'})
 
+class PrivacyView(View):
+    def get(self, request):
+        return render(request, 'privacy.html', context={'title': 'Privacy Policy'})
+
+class TosView(View):
+    def get(self, request):
+        return render(request, 'tos.html', context={'title': 'TOS'})
 
 class ContactView(View):
     def get(self, request):

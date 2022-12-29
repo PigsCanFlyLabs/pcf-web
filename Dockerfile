@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install nginx vim emacs libmariadbclient-dev defau
 COPY /conf/nginx.default /etc/nginx/sites-available/default
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
+# install mysqlclient seperately because it's only in prod not dev.
+RUN pip install mysqlclient
 
 # copy source and install dependencies
 RUN mkdir -p /opt/app

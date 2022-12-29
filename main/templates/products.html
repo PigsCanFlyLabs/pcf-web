@@ -30,28 +30,30 @@
             </div>
         </div>
         <div class="container">
-            <div class="row">
-                {% for product in products %}
+          <div class="row">
+	    <div class="col-lg-12">
+              <div class="products-item-carousel">
+                <div class="owl-products-item owl-carousel">
+                  {% for product in products %}
 		  <a href="{% url 'product' product.pk %}">
-                  <div class="col-lg-4">
-                        <div class="item">
+		    <div class="item">
+                      <div class="thumb">
                             <div class="thumb">
                                 <div class="hover-content">
-                                    <ul>
-                                        <li><i class="fa fa-shopping-cart"></i></li>
-                                    </ul>
+                                  <ul>
+                                    <li><i class="fa fa-shopping-cart"></i></li>
+                                  </ul>
                                 </div>
                                 <img src="{{ product.get_image_url }}" alt="">
                             </div>
                             <div class="down-content">
-                                <h4>{{ product.name }}</h4>
-                                <span>{{ product.get_display_price }}</span>
+                              <h4>{{ product.name }}</h4>
+                              <span>{{ product.get_display_price }}</span>
                             </div>
-                        </div>
+                      </div>
                     </div>
-		    </a>
-                {% endfor %}
-
+		  </a>
+                  {% endfor %}
             </div>
 
             {% include 'components/faq.html' %}

@@ -1,5 +1,5 @@
 Note: Most of the code in this repo is covered under the ASFv2 License
-Images and generated code may be under a different license.
+Images, generated code, and license files may be under a different license.
 
 
                                  Apache License

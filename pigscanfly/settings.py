@@ -36,9 +36,16 @@ class Base(Configuration):
     MEDIA_ROOT = "media"
     MEDIA_URL = '/media/'
 
+    NEWSLETTER_THUMBNAIL = 'sorl-thumbnail'
+
     ALLOWED_HOSTS: List[str] = ['*']
 
     # Application definition
+
+    SITE_ID=1
+
+    TEMPLATE_CONTEXT_PROCESSORS = [
+        'django.template.context_processors.request']
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -47,7 +54,11 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django.contrib.sites',
         'main',
+        'sorl.thumbnail',
+        'newsletter',
+        'cookie_consent',
     ]
 
     MIDDLEWARE = [
@@ -58,7 +69,12 @@ class Base(Configuration):
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        "cookie_consent.middleware.CleanCookiesMiddleware",
     ]
+
+    GOOGLE_ANALYTICS = {
+        'google_analytics_id': 'G-2EDT623L0V',
+    }
 
     ROOT_URLCONF = 'pigscanfly.urls'
 

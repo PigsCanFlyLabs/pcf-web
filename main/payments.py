@@ -5,7 +5,8 @@ from typing import Optional
 
 
 class Payments:
-    API_KEY = settings.STRIPE_API_KEY
+    # mypy can't find this but it does exist. idk.
+    API_KEY = settings.STRIPE_API_KEY # type: ignore
     stripe.api_key = API_KEY
 
     @classmethod
