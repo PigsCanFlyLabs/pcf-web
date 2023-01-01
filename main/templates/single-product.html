@@ -75,6 +75,7 @@
                     </div>
                     <div class="total">
                         <h4 class="calc-total">Total: </h4>
+			{% if not product.noorder %}
                         <div class="main-border-button"><button onclick="addToCart()" style="margin-top: 0;">
 			    {% if product.preorder_only %}
 			    Pre-Order
@@ -82,6 +83,7 @@
 			    Add To Cart
 			    {% endif %}
 			</button></div>
+			{% endif %}
 			{% for alt_link_name, alt_link in product.get_alt_links %}
 			<div class="main-border-button"><a href="{{alt_link}}" class="altbtn">{{alt_link_name}}</a></div>
 			{% endfor %}

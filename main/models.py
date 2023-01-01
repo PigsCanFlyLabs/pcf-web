@@ -18,6 +18,7 @@ class Product(models.Model):
     kickstarter = models.CharField(max_length=200, blank=True, null=True)
     kindle_link = models.CharField(max_length=200, blank=True, null=True)
     preorder_only = models.BooleanField(default=False, null=False)
+    noorder = models.BooleanField(default=False, null=False)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
@@ -100,6 +101,10 @@ class Product(models.Model):
             links.append((
                 "Buy on Kindle (e-book)",
                 self.kindle_link))
+        if self.kickstarter is not None and self.kickstarter != "":
+            links.append((
+                "Follow along on kick starter",
+                self.kickstarter))
         return links
 
     def get_display_text(self):
