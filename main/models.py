@@ -17,6 +17,7 @@ class Product(models.Model):
     isbn = models.CharField(max_length=14, blank=True, null=True)
     kickstarter = models.CharField(max_length=200, blank=True, null=True)
     kindle_link = models.CharField(max_length=200, blank=True, null=True)
+    preorder_only = models.BooleanField(default=False, null=False)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
