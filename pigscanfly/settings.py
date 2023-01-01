@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Base(Configuration):
+    COOKIE_CONSENT_ENABLED = True
     LOGIN_URL = 'login'
 
     # Quick-start development settings - unsuitable for production
@@ -59,7 +60,23 @@ class Base(Configuration):
         'sorl.thumbnail',
         'newsletter',
         'cookie_consent',
+        "compressor",
     ]
+
+    COMPRESS_JS_FILTERS = [
+        'compressor.filters.jsmin.JSMinFilter',
+        'compressor.filters.yuglify.YUglifyJSFilter',
+    ]
+
+    STATICFILES_FINDERS = (
+        "django.contrib.staticfiles.finders.FileSystemFinder",
+        "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+        "compressor.finders.CompressorFinder",
+    )
+    COMPRESS_ENABLED = True
+    COMPRESS_OFFLINE = True
+    COMPRESS_YUGLIFY_BINARY = "yuglify"
+    COMPRESS_YUGLIFY_JS_ARGUMENTS = "--mangle"
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
