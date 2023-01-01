@@ -2355,3 +2355,20 @@ responsive
         opacity: 0;
     }
 }
+
+/**
+ * Cookies
+ **/
+body.with-cookie-bar {
+    padding-top: 35px;
+}
+.cookie-bar {
+    position: fixed;
+    width: 100%;
+    top:0;
+    text-align:center;
+    height:50px;
+    line-height: 50px;
+    background: #eee;
+    z-index:9999;
+}

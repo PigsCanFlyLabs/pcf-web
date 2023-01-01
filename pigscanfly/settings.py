@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Base(Configuration):
     COOKIE_CONSENT_ENABLED = True
+    COOKIE_CONSENT_LOG_ENABLED = True
     LOGIN_URL = 'login'
 
     # Quick-start development settings - unsuitable for production

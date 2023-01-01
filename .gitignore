@@ -3,3 +3,4 @@ pigscanfly/__pycache__/
 main/migrations/__pycache__/
 db.sqlite3
 static/*
+__pycache__/
