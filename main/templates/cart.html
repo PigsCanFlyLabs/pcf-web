@@ -62,7 +62,11 @@
                             <span>{{ total_price }}</span>
                         </li>
                     </ul>
-                    <a href="{% url 'checkout' %}" class="proceed-btn">Proceed to Checkout</a>
+		    <form method="POST" action="{% url 'checkout' %}">
+                      {% csrf_token %}
+		      Coupon (optional): <input type="text" name="coupon" />
+                      <button type="submit" class="proceed-btn">Proceed to Checkout</a>
+		    </form>
                 </div>
             </div>
         </div>

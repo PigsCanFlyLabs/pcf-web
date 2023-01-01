@@ -30,7 +30,7 @@ class Payments:
         return product_price['id']
 
     @classmethod
-    def checkout(cls, request, cart):
+    def checkout(cls, request, cart, coupon=None):
         from main.models import Product
         products = cart.products.all()
         items = [
@@ -42,6 +42,9 @@ class Payments:
         ]
         # Add shipping if only physical products. Stripe checkout does not support
         # shipping with subscriptions so for now free shipping with any subscription
+        extras = {}
+        if coupon is not None:
+            extras["discounts"] = [{"coupon": coupon}]
         shipping = {}
         mode = "subscription"
         product_modes = list(map(lambda x: x.product.mode, products))
@@ -55,17 +58,31 @@ class Payments:
                                        "shr_0MJrMVnkDnSOC1s7xsYs0Nsa", #priority express
                                        "shr_0MJrPInkDnSOC1s7tidX8eMN", # YOLO
                                    ])
-            shipping["shipping_options"] = list(shipping_options)
+            extras["shipping_options"] = list(shipping_options)
 
+        print(f"Stuff {extras}")
         if any(map (lambda x: x == Product.Modes.PAYMENT, product_modes)):
             shipping["shipping_address_collection"] = {"allowed_countries": ["US", "CA"]}
 
-        checkout = stripe.checkout.Session.create(
-            line_items=items,
-            mode=mode,
-            success_url=request.build_absolute_uri(
-                reverse('checkout-success')),
-            cancel_url=request.build_absolute_uri(reverse('checkout-cancel')),
-            ** shipping,
-        )
-        return checkout.url
+        # Fall back for invalid coupons
+        try:
+            checkout = stripe.checkout.Session.create(
+                line_items=items,
+                mode=mode,
+                success_url=request.build_absolute_uri(
+                    reverse('checkout-success')),
+                cancel_url=request.build_absolute_uri(reverse('checkout-cancel')),
+                ** extras
+            )
+            return checkout.url
+        except:
+            del extras["discounts"]
+            checkout = stripe.checkout.Session.create(
+                line_items=items,
+                mode=mode,
+                success_url=request.build_absolute_uri(
+                    reverse('checkout-success')),
+                cancel_url=request.build_absolute_uri(reverse('checkout-cancel')),
+                ** extras
+            )
+            return checkout.url            

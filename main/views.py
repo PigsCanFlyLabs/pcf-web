@@ -195,6 +195,12 @@ class RemoveFromCartView(View):
 
 @method_decorator(login_required, name='dispatch')
 class CheckoutView(View):
+    def post(self, request):
+        coupon = request.POST.get("coupon") or None
+        cart = Cart.objects.get(user=request.user)
+        redirect_url = Payments.checkout(request, cart, coupon=coupon)
+        return redirect(redirect_url)
+
     def get(self, request):
         cart = Cart.objects.get(user=request.user)
         redirect_url = Payments.checkout(request, cart)
