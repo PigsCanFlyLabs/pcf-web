@@ -9,5 +9,6 @@ gunicorn
 Pillow
 git+https://github.com/jazzband/django-newsletter.git#egg=django-newsletter
 git+https://github.com/jazzband/django-cookie-consent.git#egg=django-cookie-consent
+sorl-thumbnail
 
 
