@@ -71,8 +71,11 @@ class Product(models.Model):
         default=Modes.PAYMENT)
 
     def get_display_price(self) -> str:
-        return "{0:.2f}".format(self.price / 100)
-
+        formatted_price = "{0:.2f}".format(self.price / 100)
+        if self.preorder_only:
+            return f"Pre-order: {formatted_price}"
+        else:
+            return formatted_price
     def get_absolute_url(self) -> str:
         return reverse('product', kwargs={'product_id': self.product_id})
 

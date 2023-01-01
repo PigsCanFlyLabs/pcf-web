@@ -29,32 +29,30 @@
                 </div>
             </div>
         </div>
-	{% for product in products %}
         <div class="container">
-	    <a href="{% url 'product' product.pk %}">
-	      <div class="col-lg-4">
-		<div class="item">
-                  <div class="thumb">
-                    <div class="hover-content">
-                      <ul>
-                        <li><i class="fa fa-shopping-cart"></i></li>
-                      </ul>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-lg-4">
+                        <div class="item">
+                            <div class="thumb">
+                                <div class="hover-content">
+                                    <ul>
+                                        <li><a href="{% url 'product' product.pk %}"><i class="fa fa-eye"></i></a></li>
+                                        <li><a href="{% url 'product' product.pk %}"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <img src="{{ product.get_image_url }}" alt="">
+                            </div>
+                            <div class="down-content">
+                                <h4>{{product.name}}</h4>
+                                <span>
+				  {{product.get_display_price}}
+				</span>
+                            </div>
+                        </div>
                     </div>
-                    <img src="{{ product.get_image_url }}" alt="">
-                  </div>
-                  <div class="down-content">
-                    <h4>{{ product.name }}</h4>
-		    <span>
-		      {% if product.preorder_only %}
-		      Pre-order:
-		      {% endif %}
-		      {{ product.get_display_price }}
-		    </span>
-                  </div>
-              </div>
-	    </a>
-          </div>
-	  {% endfor %}
+                {% endfor %}
 
             {% include 'components/faq.html' %}
         </div>
