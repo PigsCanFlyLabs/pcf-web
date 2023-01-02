@@ -2368,7 +2368,7 @@ body.with-cookie-bar {
     top:0;
     text-align:center;
     height:50px;
-    line-height: 50px;
-    background: #eee;
+    line-height: 30px;
+    background: #AEAEAE;
     z-index:9999;
 }

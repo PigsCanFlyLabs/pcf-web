@@ -92,7 +92,7 @@
 
 	// Page loading animation
 	$(window).on('load', function() {
-		if($('.cover').length){
+	        if($('.cover').length){
 			$('.cover').parallax({
 				imageSrc: $('.cover').data('image'),
 				zIndex: '1'
@@ -106,6 +106,7 @@
 				$("#preloader").css("visibility", "hidden").fadeOut();
 			}, 300);
 		});
+	mobileNav();
 	});
 
 
@@ -115,11 +116,17 @@
 	});
 
 
-	// Window Resize Mobile Menu Fix
+	// Window Resize Mobile Menu and cookies Fix
 	function mobileNav() {
 		var width = $(window).width();
-		$('.submenu').on('click', function() {
-			if(width < 767) {
+                if(width < 767) {
+		    try {
+			$(".cookie-bar").height(165)
+		    } catch (e) {
+		    }
+	        }
+	        $('.submenu').on('click', function() {
+		    if(width < 767) {
 				$('.submenu ul').removeClass('active');
 				$(this).find('ul').toggleClass('active');
 			}
