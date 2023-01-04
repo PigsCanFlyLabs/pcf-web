@@ -30,9 +30,9 @@
 <g:gtin>{{product.get_gtin}}</g:gtin>
 {% else %}
 {% if size is not None %}
-<g:mpm>{{product.get_mpm}}{{size}}</g:mpm>
+<g:mpn>{{product.get_mpn}}{{size}}</g:mpn>
 {% else %}
-<g:mpm>{{product.get_mpm}}</g:mpm>
+<g:mpn>{{product.get_mpn}}</g:mpn>
 {% endif %}
 {% endif %}
 <g:shipping>US:San Francisco:Local Delivery:0.00 USD:1:7:2:3</g:shipping>

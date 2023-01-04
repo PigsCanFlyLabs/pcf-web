@@ -16,7 +16,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     isbn = models.CharField(max_length=14, blank=True, null=True)
     upc = models.CharField(max_length=14, blank=True, null=True)
-    mpm = models.CharField(max_length=100, blank=True, null=True)
+    mpn = models.CharField(max_length=100, blank=True, null=True)
     kickstarter = models.CharField(max_length=200, blank=True, null=True)
     kindle_link = models.CharField(max_length=200, blank=True, null=True)
     preorder_only = models.BooleanField(default=False, null=False)
@@ -47,11 +47,14 @@ class Product(models.Model):
         HOSTING = 'txcd_10701100', 'Hosting'
         PHONES = 'txcd_34021000', 'Phones'
         BOOKS = 'txcd_35010000', 'Books'  # Physical books
+        ROUTERS = 'txcd_34040014', 'Routers'
+        ELECTRONICS = 'txcd_34020027', 'Consumer Electronics'
 
     class Categories(models.TextChoices):
         BOOKS = 'B', "Books"
         SERVICES = 'S', "Services"
         ELECTRONICS = 'E', "Electronics"
+        OTHER_ELECTRONICS = 'OE', "Other Electronics"
         MERCH = 'M', "Merch"
 
     name = models.CharField(max_length=250)
@@ -138,7 +141,7 @@ class Product(models.Model):
 
     def get_brand(self):
         if self.brand is not None:
-            return brand
+            return self.brand
         elif self.cat == Product.Categories.BOOKS:
             return "O'Reilly"
         else:
@@ -150,9 +153,9 @@ class Product(models.Model):
         else:
             return [None]
 
-    def get_mpm(self):
-        if self.mpm is not None:
-            return self.mpm
+    def get_mpn(self):
+        if self.mpn is not None:
+            return self.mpn
         else:
             return f"PCF{self.pk}"
 

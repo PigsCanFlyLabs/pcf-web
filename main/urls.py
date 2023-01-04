@@ -32,7 +32,7 @@ urlpatterns = [
     path('privacy', views.TosView.as_view(), name='privacy'),
     path('returns', views.ReturnView.as_view(), name='returns'),
 
-    path('google_products.xml', views.GoogleProductFeed.as_view(), name='products'),
+    path('google_products.xml', views.GoogleProductFeed.as_view(), name='googleproducts'),
 ]
 
 if settings.MEDIA_URL is not None:
