@@ -22,7 +22,8 @@ class Product(models.Model):
     noorder = models.BooleanField(default=False, null=False)
     backorder = models.BooleanField(default=False, null=False)
     date_available = models.DateField(null=True)
-    brand = models.CharField(null=True)
+    brand = models.CharField(null=True, max_length=200)
+    sizes = models.CharField(null=True, max_length=200)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
@@ -137,7 +138,7 @@ class Product(models.Model):
     def get_brand(self):
         if self.brand is not None:
             return brand
-        elif self.category == Categories.books:
+        elif self.cat == Product.Categories.BOOKS:
             return "O'Reilly"
         else:
             return "Pigs Can Fly Labs"

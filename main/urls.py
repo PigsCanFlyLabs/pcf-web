@@ -30,6 +30,8 @@ urlpatterns = [
     path('logout', views.LogoutView.as_view(), name='logout'),
     path('tos', views.TosView.as_view(), name='tos'),
     path('privacy', views.TosView.as_view(), name='privacy'),
+
+    path('google_products.xml', views.GoogleProductFeed.as_view(), name='products'),
 ]
 
 if settings.MEDIA_URL is not None:

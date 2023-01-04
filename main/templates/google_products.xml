@@ -23,10 +23,10 @@
 <g:gender>Unisex</g:gender>
 
 {% if size is not None %}
-<g:size>size</g:size>
+<g:size>{{size}}</g:size>
 {% endif %}
 
-{% if product.get_gtin() is not None %}
+{% if product.get_gtin is not None %}
 <g:gtin>{{product.get_gtin}}</g:gtin>
 {else}
 <g:mpm>PCF{{product.pk}}{{size}}</g:mpm>
@@ -38,3 +38,5 @@
 </item>
 {% endfor %}
 {% endfor %}
+</channel>
+</rss>
