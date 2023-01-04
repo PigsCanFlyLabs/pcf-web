@@ -41,6 +41,10 @@ class TosView(View):
     def get(self, request):
         return render(request, 'tos.html', context={'title': 'TOS'})
 
+class ReturnView(View):
+    def get(self, request):
+        return render(request, 'return.html', context={'title': 'TOS'})
+
 class ContactView(View):
     def get(self, request):
         return render(request, 'contact.html', context={'title': 'Contact Us'})
