@@ -21,9 +21,9 @@ class Product(models.Model):
     preorder_only = models.BooleanField(default=False, null=False)
     noorder = models.BooleanField(default=False, null=False)
     backorder = models.BooleanField(default=False, null=False)
-    date_available = models.DateField(null=True)
-    brand = models.CharField(null=True, max_length=200)
-    sizes = models.CharField(null=True, max_length=200)
+    date_available = models.DateField(null=True, blank=True)
+    brand = models.CharField(null=True, blank=True, max_length=200)
+    sizes = models.CharField(null=True, blank=True, max_length=200)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
