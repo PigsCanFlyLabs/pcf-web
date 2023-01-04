@@ -15,10 +15,14 @@ class Product(models.Model):
     external_product_id = models.CharField(max_length=250, blank=True, null=True)
     product_id = models.AutoField(primary_key=True)
     isbn = models.CharField(max_length=14, blank=True, null=True)
+    upc = models.CharField(max_length=14, blank=True, null=True)
     kickstarter = models.CharField(max_length=200, blank=True, null=True)
     kindle_link = models.CharField(max_length=200, blank=True, null=True)
     preorder_only = models.BooleanField(default=False, null=False)
     noorder = models.BooleanField(default=False, null=False)
+    backorder = models.BooleanField(default=False, null=False)
+    date_available = models.DateField(null=True)
+    brand = models.CharField(null=True)
 
     def generate_external_product_id(self):
         external_product_id = Payments.create_product(
@@ -115,6 +119,34 @@ class Product(models.Model):
             return f"{self.description}<p>All of Holden's books are avaible signed on request</p>"
         else:
             return self.description
+
+    def get_gtin(self):
+        if self.isbn is not None:
+            return self.isbn
+        else:
+            return self.upc
+
+    def get_availability(self):
+        if self.preorder_only:
+            return "[preorder]"
+        elif self.backorder:
+            return "[backorder]"
+        else:
+            return "[in_stock]"
+
+    def get_brand(self):
+        if self.brand is not None:
+            return brand
+        elif self.category == Categories.books:
+            return "O'Reilly"
+        else:
+            return "Pigs Can Fly Labs"
+
+    def get_sizes(self):
+        if self.sizes is not None:
+            return self.sizes.split(",")
+        else:
+            return [None]
 
 class Cart(models.Model):
     user = models.OneToOneField(

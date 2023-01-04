@@ -120,6 +120,11 @@ class SignupView(View):
             return redirect('home')
 
 
+class GoogleProductFeed(View):
+    def get(self, request):
+        everything_but_services = Product.objects.filter(cat != Product.Categories.services, noorder != True)
+
+
 class LoginView(View):
     def get(self, request):
         valid = request.GET.get('valid')
