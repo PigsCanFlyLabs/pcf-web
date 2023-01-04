@@ -122,8 +122,9 @@ class SignupView(View):
 
 class GoogleProductFeed(View):
     def get(self, request):
-        everything_but_services = Product.objects.exclude(
-            cat=Product.Categories.SERVICES, noorder=True)
+        everything_but_services = (Product.objects.exclude(
+            cat=Product.Categories.SERVICES)
+            .exclude(noorder=True))
         return render(request, "google_products.xml", context={'products': everything_but_services}, content_type="text/xml")
 
 

@@ -28,7 +28,7 @@
 
 {% if product.get_gtin is not None %}
 <g:gtin>{{product.get_gtin}}</g:gtin>
-{else}
+{% else %}
 <g:mpm>PCF{{product.pk}}{{size}}</g:mpm>
 {% endif %}
 <g:shipping>US:San Francisco:Local Delivery:0.00 USD:1:7:2:3</g:shipping>
