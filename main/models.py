@@ -16,6 +16,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     isbn = models.CharField(max_length=14, blank=True, null=True)
     upc = models.CharField(max_length=14, blank=True, null=True)
+    mpm = models.CharField(max_length=100, blank=True, null=True)
     kickstarter = models.CharField(max_length=200, blank=True, null=True)
     kindle_link = models.CharField(max_length=200, blank=True, null=True)
     preorder_only = models.BooleanField(default=False, null=False)
@@ -148,6 +149,12 @@ class Product(models.Model):
             return self.sizes.split(",")
         else:
             return [None]
+
+    def get_mpm(self):
+        if self.mpm is not None:
+            return self.mpm
+        else:
+            return f"PCF{self.pk}"
 
 class Cart(models.Model):
     user = models.OneToOneField(
