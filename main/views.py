@@ -1,3 +1,4 @@
+from typing import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -98,7 +99,7 @@ class ProductView(View):
 
 class BaseCartView():
     """Common base cart view."""
-    def get_cart(self, request) -> Cart:
+    def get_cart(self, request) -> Optional[Cart]:
         user_cart = None
         session_cart = None
         if hasattr(request, "user") and request.user is not None and request.user is User:
@@ -106,7 +107,7 @@ class BaseCartView():
                 user_cart = Cart.objects.get(user=request.user)
             except:
                 user_cart = Cart.objects.create(user=request.user)
-                cart.save()
+                user_cart.save()
         else:
             if "cart_id" in request.session and request.session["cart_id"] is not None:
                 session_cart = Cart.objects.get(cart_id=request.session["cart_id"])
@@ -118,7 +119,7 @@ class BaseCartView():
         if session_cart is None:
             return user_cart
         # Ok we have two carts time to merge them
-        for product in session_cart.products:
+        for product in session_cart.products.all():
             product.cart = user_cart
         del request.session["cart_id"]
         return user_cart

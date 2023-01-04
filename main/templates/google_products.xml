@@ -10,8 +10,8 @@
 <g:id>{{product.pk}}</g:id>
 <g:title>{{product.name}}</g:title>
 <g:description>{{product.get_display_text}}</g:description>
-<g:link>{% url 'product' product.pk %}</g:link>
-<g:image_link>{{ product.get_image_url }}</g:image_link>
+<g:link>https://www.pigscanfly.ca/{% url 'product' product.pk %}</g:link>
+<g:image_link>https://www.pigscanfly.ca/{{ product.get_image_url }}</g:image_link>
 <g:availability>{{ product.get_availability }}</g:availability>
 
 {% if product.date_available is not None %}
