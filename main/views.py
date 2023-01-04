@@ -96,6 +96,32 @@ class ProductView(View):
         product = Product.objects.get(pk=pk)
         return render(request, 'single-product.html', context={'title': product.name, 'product': product})
 
+class BaseCartView():
+    """Common base cart view."""
+    def get_cart(self, request) -> Cart:
+        user_cart = None
+        session_cart = None
+        if hasattr(request, "user") and request.user is not None and request.user is User:
+            try:
+                user_cart = Cart.objects.get(user=request.user)
+            except:
+                user_cart = Cart.objects.create(user=request.user)
+                cart.save()
+        else:
+            if "cart_id" in request.session and request.session["cart_id"] is not None:
+                session_cart = Cart.objects.get(cart_id=request.session["cart_id"])
+            else:
+                session_cart = Cart.objects.create()
+                request.session["cart_id"] = session_cart.cart_id
+        if user_cart is None:
+            return session_cart
+        if session_cart is None:
+            return user_cart
+        # Ok we have two carts time to merge them
+        for product in session_cart.products:
+            product.cart = user_cart
+        del request.session["cart_id"]
+        return user_cart
 
 class SignupView(View):
     def get(self, request):
@@ -161,26 +187,19 @@ class LogoutView(View):
         return redirect('login')
 
 
-@method_decorator(login_required, name='dispatch')
-class CartView(View):
+class CartView(View, BaseCartView):
     def get(self, request):
-        cart = Cart.objects.get(user=request.user)
+        cart = self.get_cart(request)
         print(f"Got cart {cart} with {cart.products.all()}")
         total_price = sum(map(lambda x: x.total_price(), cart.products.all()))
         total_display_price = "{0:.2f}".format(total_price / 100)
         return render(request, 'cart.html', context={'title': 'Cart', 'products': cart.products.all(), 'total_price': total_display_price})
 
 
-@method_decorator(login_required, name='dispatch')
-class AddToCartView(View):
+class AddToCartView(View, BaseCartView):
     def get(self, request, product_id, quantity):
         product = Product.objects.get(pk=product_id)
-        try:
-            cart = Cart.objects.get(user=request.user)
-        except:
-            cart = Cart.objects.create(user=request.user)
-            cart.save()
-
+        cart = self.get_cart(request)
         quantity = quantity
 
         try:
@@ -195,39 +214,35 @@ class AddToCartView(View):
         return redirect('cart')
 
 
-@method_decorator(login_required, name='dispatch')
-class RemoveFromCartView(View):
+class RemoveFromCartView(View, BaseCartView):
     def get(self, request, product_id):
         cart_product = CartProduct.objects.get(pk=product_id)
-        cart = Cart.objects.get(user=request.user)
+        cart = self.get_cart(request)
         cart.products.remove(cart_product)
         cart_product.delete()
         return redirect('cart')
 
 
-@method_decorator(login_required, name='dispatch')
-class CheckoutView(View):
+class CheckoutView(View, BaseCartView):
     def post(self, request):
         coupon = request.POST.get("coupon") or None
-        cart = Cart.objects.get(user=request.user)
+        cart = self.get_cart(request)
         redirect_url = Payments.checkout(request, cart, coupon=coupon)
         return redirect(redirect_url)
 
     def get(self, request):
-        cart = Cart.objects.get(user=request.user)
+        cart = self.get_cart(request)
         redirect_url = Payments.checkout(request, cart)
         return redirect(redirect_url)
 
 
-@method_decorator(login_required, name='dispatch')
-class CheckoutSuccessView(View):
+class CheckoutSuccessView(View, BaseCartView):
     def get(self, request):
-        cart = Cart.objects.get(user=request.user)
+        cart = self.get_cart(request)
         cart.clear()
         return render(request, 'checkout_success.html', context={'title': 'Success! - Checkout'})
 
 
-@method_decorator(login_required, name='dispatch')
-class CheckoutCancelView(View):
+class CheckoutCancelView(View, BaseCartView):
     def get(self, request):
         return render(request, 'checkout_cancel.html', context={'title': 'Cancelled! - Checkout'})

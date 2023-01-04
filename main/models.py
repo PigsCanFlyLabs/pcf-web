@@ -163,8 +163,10 @@ class Cart(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        primary_key=True,
+        null=True,
+        blank=True,
         )
+    cart_id = models.AutoField(primary_key=True)
     products = models.ManyToManyField(
         'CartProduct', related_name='cart_products')
 
@@ -172,10 +174,16 @@ class Cart(models.Model):
         self.products.remove(*self.products.all())
 
     def __str__(self) -> str:
-        return f'{self.user.username}'
+        if self.user is not None:
+            return f'{self.user.username}'
+        else:
+            return f'<Cart: dynamic {self.cart_id}>'
 
     def __repr__(self) -> str:
-        return f'<Cart: {self.user.username}>'
+        if self.user is not None:
+            return f'<Cart: {self.user.username}>'
+        else:
+            return f'<Cart: dynamic {self.cart_id}>'
 
 
 class CartProduct(models.Model):
