@@ -2,4 +2,4 @@
 set -ex
 mypy .
 ./manage.py collectstatic --no-input
-docker buildx build --platform=linux/amd64,linux/arm64 -t holdenk/pcfweb:v0.2.3a . --push
+docker buildx build --platform=linux/amd64,linux/arm64 -t holdenk/pcfweb:v0.2.3b . --push
