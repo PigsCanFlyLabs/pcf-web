@@ -88,6 +88,7 @@ class Base(Configuration):
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         "cookie_consent.middleware.CleanCookiesMiddleware",
+        'django_user_agents.middleware.UserAgentMiddleware',
     ]
 
     GOOGLE_ANALYTICS = {

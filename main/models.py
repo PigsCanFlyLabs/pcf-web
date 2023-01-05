@@ -9,7 +9,7 @@ from typing import Optional
 
 # Create your models here.
 class Product(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, primary_key=False)
     description = models.TextField(default="No description.")
     image = models.ImageField(upload_to='product-images')
     external_product_id = models.CharField(max_length=250, blank=True, null=True)
@@ -133,11 +133,11 @@ class Product(models.Model):
 
     def get_availability(self):
         if self.preorder_only:
-            return "[preorder]"
+            return "preorder"
         elif self.backorder:
-            return "[backorder]"
+            return "backorder"
         else:
-            return "[in_stock]"
+            return "in_stock"
 
     def get_brand(self):
         if self.brand is not None:
