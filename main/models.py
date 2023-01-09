@@ -139,6 +139,22 @@ class Product(models.Model):
         else:
             return "in_stock"
 
+    def buy_text(self):
+        if self.preorder_only:
+            return "Pre-Order"
+        elif self.backorder:
+            return "Back Order"
+        else:
+            return "Add to Cart"
+
+    def stock_description(self):
+        if self.backorder:
+            return "***Back Order Only***"
+        elif self.preorder_only:
+            return "***PreOrder Only***"
+        else:
+            return ""
+
     def get_brand(self):
         if self.brand is not None:
             return self.brand

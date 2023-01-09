@@ -26,7 +26,7 @@ class Payments:
             product_price = stripe.Price.create(
                 unit_amount=price, currency=currency, product=product_id,
                 recurring = {"interval": interval}
-            )            
+            )
         return product_price['id']
 
     @classmethod
@@ -53,16 +53,16 @@ class Payments:
             # options
             shipping_options = map(lambda x: {"shipping_rate": x},
                                    [
+                                       "shr_0MJrPInkDnSOC1s7tidX8eMN", # YOLO
                                        "shr_0MJrIYnkDnSOC1s7fthNSlhb", # sf only
                                        "shr_0MJrL4nkDnSOC1s7cPSy15CO", #media mail
-                                       "shr_0MJrMVnkDnSOC1s7xsYs0Nsa", #priority express
-                                       "shr_0MJrPInkDnSOC1s7tidX8eMN", # YOLO
+                                       "shr_0MNOZrnkDnSOC1s7TSLZig6Z", #faster
                                    ])
             extras["shipping_options"] = list(shipping_options)
 
         print(f"Stuff {extras}")
-        if any(map (lambda x: x == Product.Modes.PAYMENT, product_modes)):
-            shipping["shipping_address_collection"] = {"allowed_countries": ["US", "CA"]}
+        if any(map (lambda x: x == Product.Modes.PAYMENT, product_modes)) or mode == "payment":
+            extras["shipping_address_collection"] = {"allowed_countries": ["US", "CA"]}
 
         # Fall back for invalid coupons
         try:
@@ -80,9 +80,13 @@ class Payments:
             checkout = stripe.checkout.Session.create(
                 line_items=items,
                 mode=mode,
+                automatic_tax={
+                    "enabled": True,
+                },
+                billing_address_collection = "required",
                 success_url=request.build_absolute_uri(
                     reverse('checkout-success')),
                 cancel_url=request.build_absolute_uri(reverse('checkout-cancel')),
                 ** extras
             )
-            return checkout.url            
+            return checkout.url
