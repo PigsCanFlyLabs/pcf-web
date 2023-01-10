@@ -15,9 +15,18 @@ spec:
       labels:
         app: pcfweb
     spec:
+      volumes:
+        - name: client-secret
+          secret:
+            secretName: client-secret
+            optional: false
       containers:
-        - image: holdenk/pcfweb:v0.3.0b
+        - image: holdenk/pcfweb:v0.3.3b
           name: pcfweb
+          volumeMounts:
+            - name: client-secret
+              mountPath: "/opt/app/client_secret.json"
+              readOnly: true
           envFrom:
           - secretRef:
               name: pcfweb-secret

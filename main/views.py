@@ -18,7 +18,7 @@ from main.utils import generate_username
 class HomeView(View):
     def get(self, request):
         highlights = map(
-            lambda cat: ((cat, cat.label), list(Product.objects.filter(cat = cat).order_by('-price')[:3])),
+            lambda cat: ((cat, cat.label), list(Product.objects.filter(cat = cat).exclude(noorder=True).order_by('-price')[:3])),
             Product.Categories)
         # Only show categories with elements in them.
         highlights = list(filter(lambda x: len(x[1]) != 0, highlights))

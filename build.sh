@@ -1,8 +1,9 @@
 #!/bin/bash
 set -ex
-mypy .
+mypy -p main -p pigscanfly
 ./manage.py collectstatic --no-input
 # Hack, for now.
-cp -af ../cal-sync-magic/cal_sync_magic ./
-docker buildx build --platform=linux/amd64,linux/arm64 -t holdenk/pcfweb:v0.3.0b . --push
+rm -rf ./cal-sync-magic
+cp -af ../cal-sync-magic ./
+docker buildx build --platform=linux/amd64,linux/arm64 -t holdenk/pcfweb:v0.3.3b . --push
 
