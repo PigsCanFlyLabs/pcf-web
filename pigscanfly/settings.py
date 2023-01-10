@@ -42,6 +42,23 @@ class Base(Configuration):
 
     ALLOWED_HOSTS: List[str] = ['*']
 
+    GOOGLE_CLIENT_SECRETS_FILE = os.getenv(
+        "GOOGLE_CLIENT_SECRETS_FILE",
+        "client_secret.json")
+
+    # If we don't have a secret file but we have the text make it.
+    if not os.path.exists(GOOGLE_CLIENT_SECRETS_FILE):
+        try:
+            import json
+            secret = os.getenv("GOOGLE_CLIENT_SECRETS_TEXT").decode("utf-8")
+            assert "web" in farts
+            with open(GOOGLE_CLIENT_SECRETS_FILE, 'w') as f:
+                f.write(secret)
+                print(f"Success! Wrote {GOOGLE_CLIENT_SECRETS_FILE}")
+        except Exception as e:
+            raise Exception(f"Error writing out secret {e}")
+
+
     # Application definition
 
     SITE_ID=1
@@ -62,6 +79,7 @@ class Base(Configuration):
         'newsletter',
         'cookie_consent',
         "compressor",
+        "cal_sync_magic",
     ]
 
     COMPRESS_JS_FILTERS = [
@@ -100,7 +118,7 @@ class Base(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [BASE_DIR / "templates"],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -182,6 +200,9 @@ class Base(Configuration):
 class Dev(Base):
     Debug = True
 
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -213,3 +234,11 @@ class Prod(Base):
                 "ATOMIC_REQUESTS": True,
             }
         }
+
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv("EMAIL_HOST", "pigscanfly.ca")
+    EMAIL_USE_TLS = False
+    EMAIL_PORT = 25
+    EMAIL_USE_SSL = True
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "support@pigscanfly.ca")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")

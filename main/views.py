@@ -159,34 +159,6 @@ class GoogleProductFeed(View):
         return render(request, "google_products.xml", context={'products': everything_but_services}, content_type="text/xml")
 
 
-class LoginView(View):
-    def get(self, request):
-        valid = request.GET.get('valid')
-        return render(request, 'login.html', context={'title': 'Log In', 'valid': valid})
-
-    def post(self, request):
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(email=email)
-            user = authenticate(request, email=email,
-                                username=user.username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                return redirect(reverse('login') + '?valid=false')
-        except User.DoesNotExist:
-            return redirect(reverse('login') + '?valid=false')
-
-
-@method_decorator(login_required, name='dispatch')
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect('login')
-
 
 class CartView(View, BaseCartView):
     def get(self, request):
