@@ -51,16 +51,13 @@ class Base(Configuration):
 
     # If we don't have a secret file but we have the text make it.
     if not os.path.exists(GOOGLE_CLIENT_SECRETS_FILE):
-        try:
-            import json
-            secret = os.getenv("GOOGLE_CLIENT_SECRETS_TEXT").decode("utf-8")
-            assert "web" in farts
+        secret = os.getenv("GOOGLE_CLIENT_SECRETS_TEXT")
+        if secret is not None:
             with open(GOOGLE_CLIENT_SECRETS_FILE, 'w') as f:
                 f.write(secret)
                 print(f"Success! Wrote {GOOGLE_CLIENT_SECRETS_FILE}")
-        except Exception as e:
-            raise Exception(f"Error writing out secret {e}")
-
+        else:
+            raise Exception(f"Error writing out secret, no client secret env var")
 
     # Application definition
 
