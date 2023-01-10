@@ -46,6 +46,9 @@ class Base(Configuration):
         "GOOGLE_CLIENT_SECRETS_FILE",
         "client_secret.json")
 
+    if not os.path.exists(GOOGLE_CLIENT_SECRETS_FILE):
+        GOOGLE_CLIENT_SECRETS_FILE = "../cal-sync-magic/client_secret.json"
+
     # If we don't have a secret file but we have the text make it.
     if not os.path.exists(GOOGLE_CLIENT_SECRETS_FILE):
         try:
