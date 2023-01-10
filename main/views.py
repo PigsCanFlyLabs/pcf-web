@@ -73,7 +73,7 @@ class ProductsView(View):
             return render(request, 'products.html', context={
                 'title': f'Products - {cat_name}',
                 'type': cat_name,
-                'products': Product.objects.filter(cat=cat),
+                'products': Product.objects.filter(cat=cat).exclude(noorder=True),
                 'extra_style': extra_style
             })
 

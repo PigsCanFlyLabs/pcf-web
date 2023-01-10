@@ -16,7 +16,7 @@ spec:
         app: pcfweb
     spec:
       containers:
-        - image: holdenk/pcfweb:v0.2.5f
+        - image: holdenk/pcfweb:v0.2.6a
           name: pcfweb
           envFrom:
           - secretRef:
