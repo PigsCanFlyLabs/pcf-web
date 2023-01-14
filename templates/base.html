@@ -34,18 +34,18 @@
     {% load cookie_consent_tags %}
     <script type="text/javascript" src={% static "cookie_consent/cookiebar.js" %}></script>
     {% if request|cookie_group_accepted:"analytics" or request.user_agent.is_bot  %}
-<!-- Google tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2EDT623L0V">
-</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2EDT623L0V');
-  gtag('config', 'AW-11060726723');
-  gtag('config', 'UA-10047168-1');
-</script>
+    <!-- Google tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2EDT623L0V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-2EDT623L0V');
+      gtag('config', 'G-2EDT623L0V');
+      gtag('config', 'AW-11060726723');
+      gtag('config', 'UA-10047168-1');
+    </script>
     <!-- reddit -->
     <!-- Reddit Pixel -->
     <script>
@@ -105,11 +105,17 @@
 	</div>
     </header>
     <!-- ***** Header Area End ***** -->
+    {% block pre-roll %}
+    {% endblock pre-roll %}
 
+    <!-- Actual content -->
     {% block content %}
 
     {% endblock content %}
+    <!-- End of content block. Phew that was short -->
 
+    {% block foot-roll %}
+    {% endblock foot-roll %}
     <!-- ***** Footer Start ***** -->
     <footer>
 	<div class="container">
