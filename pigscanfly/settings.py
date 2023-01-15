@@ -79,6 +79,7 @@ class Base(Configuration):
         'newsletter',
         'cookie_consent',
         "compressor",
+        'django_extensions',
         "cal_sync_magic",
     ]
 

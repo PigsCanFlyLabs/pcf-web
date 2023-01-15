@@ -25,6 +25,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('newsletter/', include('newsletter.urls')),
     path("cookies/", include("cookie_consent.urls")),
-    path("farts/", include("cal_sync_magic.urls")),
+    path("calendar/", include("cal_sync_magic.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
 ]

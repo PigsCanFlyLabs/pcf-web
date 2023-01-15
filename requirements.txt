@@ -12,3 +12,6 @@ git+https://github.com/jazzband/django-cookie-consent.git#egg=django-cookie-cons
 sorl-thumbnail
 django_compressor
 django_user_agents
+django-extensions
+werkzeug
+git+https://github.com/mkurnikov/django-stubs#egg=django-stubs
