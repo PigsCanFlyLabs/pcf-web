@@ -4,7 +4,7 @@ requests
 pytz
 django
 django-configurations
-django-stubs[compatible-mypy]
+mypy
 gunicorn
 Pillow
 git+https://github.com/jazzband/django-newsletter.git#egg=django-newsletter
@@ -14,4 +14,13 @@ django_compressor
 django_user_agents
 django-extensions
 werkzeug
-git+https://github.com/mkurnikov/django-stubs#egg=django-stubs
+django-stubs
+django-filer
+django-cms
+django-celery-beat
+django-treebeard
+celery
+# Wait for a 3.10 compatible version
+# django-categories
+djangocms-attributes-field
+easy_thumbnails

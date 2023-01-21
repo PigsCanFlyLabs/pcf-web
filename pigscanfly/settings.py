@@ -25,6 +25,7 @@ class Base(Configuration):
     COOKIE_CONSENT_ENABLED = True
     COOKIE_CONSENT_LOG_ENABLED = True
     LOGIN_URL = 'login'
+    LOGIN_REDIRECT_URL = '/'
 
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -76,6 +77,7 @@ class Base(Configuration):
         'django.contrib.sites',
         'main',
         'sorl.thumbnail',
+        'easy_thumbnails',
         'newsletter',
         'cookie_consent',
         "compressor",
@@ -238,8 +240,9 @@ class Prod(Base):
 
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = os.getenv("EMAIL_HOST", "pigscanfly.ca")
-    EMAIL_USE_TLS = False
+    EMAIL_USE_TLS = True
     EMAIL_PORT = 25
-    EMAIL_USE_SSL = True
-    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "support@pigscanfly.ca")
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "support")
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+    DEFAULT_FROM_EMAIL = "support@pigscanfly.ca"

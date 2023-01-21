@@ -219,3 +219,32 @@ class CheckoutSuccessView(View, BaseCartView):
 class CheckoutCancelView(View, BaseCartView):
     def get(self, request):
         return render(request, 'checkout_cancel.html', context={'title': 'Cancelled! - Checkout'})
+
+class LoginView(View):
+    def get(self, request):
+        valid = request.GET.get('valid')
+        return render(request, 'login.html', context={'title': 'Log In', 'valid': valid})
+
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(email=email)
+            user = authenticate(request, email=email,
+                                username=user.username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect(reverse('login') + '?valid=false')
+        except User.DoesNotExist:
+            return redirect(reverse('login') + '?valid=false')
+
+
+@method_decorator(login_required, name='dispatch')
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')
+
