@@ -1,3 +1,5 @@
+{% load easy_thumbnails_tags %}
+{% load static_thumbnails %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +78,7 @@
 		    <nav class="main-nav">
 			<!-- ***** Logo Start ***** -->
 			<a href="{% url 'home' %}" class="logo">
-			    <img src="{% static 'assets/logo-cropped.png' %}" class="img-fluid" width="100">
+			    <img src="{% static_thumbnail 'assets/logo-cropped.png' 100x53 %}" class="img-fluid" width="100">
 			</a>
 			<!-- ***** Logo End ***** -->
 			<!-- ***** Menu Start ***** -->

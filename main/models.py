@@ -6,6 +6,8 @@ from django.urls import reverse
 from main.payments import Payments
 from typing import Optional
 
+from easy_thumbnails.files import get_thumbnailer
+
 
 # Create your models here.
 class Product(models.Model):
@@ -96,6 +98,30 @@ class Product(models.Model):
                 return static(f"assets/images/{self.image_name}")
             else:
                 return None
+
+    def get_thumb(self):
+        t = None
+        print("hi")
+        try:
+            if self.image_name is not None:
+                from static_thumbnails.templatetags.static_thumbnails import static_storage
+                t = get_thumbnailer(
+                    static_storage,
+                    relative_name=f"assets/images/{self.image_name}")
+                print("k?")
+            else:
+                t = get_thumbnailer(self.image)
+        except Exception as e:
+            print(f"Got exception {e} trying to load thumbnailer.")
+            return self.get_image_url()
+        print(f"Getting thumbailer {t}")
+        try:
+            th = t.get_thumbnail({'size': (290, 380)})
+            print(f"Got thumbailer {t} with thumb {th}")
+            return th.url
+        except Exception as e:
+            print(f"Error generating thumbnail?: {e}")
+            return self.get_image_url()
 
     def __str__(self) -> str:
         return f'{self.name}'

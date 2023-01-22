@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load easy_thumbnails_tags %}
+{% load static_thumbnails %}
 {% load static %}
 {% block content %}
 
@@ -42,7 +44,9 @@
                                         <li><a href="{% url 'product' product.pk %}"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="{{ product.get_image_url }}" alt="">
+				<a href="{% url 'product' product.pk %}">
+                                  <img src="{{ product.get_thumb }}" alt="">
+				</a>
                             </div>
                             <div class="down-content">
                                 <h4>{{product.name}}</h4>

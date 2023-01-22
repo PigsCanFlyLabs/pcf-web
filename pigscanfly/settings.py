@@ -26,6 +26,7 @@ class Base(Configuration):
     COOKIE_CONSENT_LOG_ENABLED = True
     LOGIN_URL = 'login'
     LOGIN_REDIRECT_URL = '/'
+    THUMBNAIL_DEBUG = True
 
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -83,6 +84,7 @@ class Base(Configuration):
         "compressor",
         'django_extensions',
         "cal_sync_magic",
+        "static_thumbnails",
     ]
 
     COMPRESS_JS_FILTERS = [
@@ -179,12 +181,12 @@ class Base(Configuration):
     # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
     STATIC_URL = 'static/'
-    STATIC_ROOT = 'static'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
     # MEDIA FILE SETTINGS
 
     MEDIA_URL = 'media/'
-    MEDIA_ROOT = 'media'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

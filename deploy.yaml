@@ -21,7 +21,7 @@ spec:
             secretName: client-secret
             optional: false
       containers:
-        - image: holdenk/pcfweb:v0.5.1a
+        - image: holdenk/pcfweb:v0.6.2
           name: pcfweb
           volumeMounts:
             - name: client-secret
