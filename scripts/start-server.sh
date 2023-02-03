@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 # start-server.sh
 cd /opt/app
 # Run migrations
