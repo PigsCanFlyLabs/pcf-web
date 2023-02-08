@@ -21,12 +21,15 @@ spec:
             secretName: client-secret
             optional: false
       containers:
-        - image: holdenk/pcfweb:v0.8.1
+        - image: holdenk/pcfweb:v0.8.5
           name: pcfweb
           volumeMounts:
             - name: client-secret
               mountPath: "/opt/app/client_secret/"
               readOnly: true
+          env:
+          - name: OAUTHLIB_RELAX_TOKEN_SCOPE
+            value: "1"
           envFrom:
           - secretRef:
               name: pcfweb-secret
