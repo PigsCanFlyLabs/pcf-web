@@ -1,12 +1,71 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: web-primary
+  namespace: pcfweb
+  labels:
+    app: web-primary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-primary
+  template:
+    metadata:
+      labels:
+        app: web-primary
+    spec:
+      volumes:
+        - name: client-secret
+          secret:
+            secretName: client-secret
+            optional: false
+      containers:
+        - image: holdenk/pcfweb:v0.8.9
+          name: pcfweb
+          volumeMounts:
+            - name: client-secret
+              mountPath: "/opt/app/client_secret/"
+              readOnly: true
+          env:
+          - name: OAUTHLIB_RELAX_TOKEN_SCOPE
+            value: "1"
+          - name: PRIMARY
+            value: "1"
+          envFrom:
+          - secretRef:
+              name: pcfweb-secret
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: web
+          livenessProbe:
+            httpGet:
+              httpHeaders:
+                - name: Host
+                  value: "www.pigscanfly.ca"
+              path: /
+              port: 80
+            periodSeconds: 180
+          startupProbe:
+            httpGet:
+              httpHeaders:
+                - name: Host
+                  value: "www.pigscanfly.ca"
+              path: /
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: web
   namespace: pcfweb
   labels:
     app: pcfweb
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: pcfweb
@@ -21,7 +80,7 @@ spec:
             secretName: client-secret
             optional: false
       containers:
-        - image: holdenk/pcfweb:v0.8.5
+        - image: holdenk/pcfweb:v0.8.7
           name: pcfweb
           volumeMounts:
             - name: client-secret

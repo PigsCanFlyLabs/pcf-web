@@ -3,7 +3,9 @@ set -ex
 # start-server.sh
 cd /opt/app
 # Run migrations
-./manage.py migrate
+if [ ! -z "$PRIMARY" ]; then
+  ./manage.py migrate
+fi
 # Start gunicorn
 export DJANGO_CONFIGURATION=${DJANGO_CONFIGURATION:-"Prod"}
 export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-"pigscanfly.settings"}
