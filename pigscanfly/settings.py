@@ -239,7 +239,7 @@ class Prod(Base):
                 "USER": os.getenv("DBUSER"),
                 "PASSWORD": os.getenv("DBPASSWORD"),
                 "HOST": os.getenv("DBHOST"),
-                "ATOMIC_REQUESTS": True,
+                "ATOMIC_REQUESTS": os.getenv("ATOMIC_REQUEST", False),
             }
         }
 

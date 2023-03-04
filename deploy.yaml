@@ -21,7 +21,7 @@ spec:
             secretName: client-secret
             optional: false
       containers:
-        - image: holdenk/pcfweb:v0.8.9
+        - image: holdenk/pcfweb:v0.9.9f
           name: pcfweb
           volumeMounts:
             - name: client-secret
@@ -32,6 +32,8 @@ spec:
             value: "1"
           - name: PRIMARY
             value: "1"
+          - name: ATOMIC_REQUESTS
+            value: "False"
           envFrom:
           - secretRef:
               name: pcfweb-secret
@@ -80,7 +82,7 @@ spec:
             secretName: client-secret
             optional: false
       containers:
-        - image: holdenk/pcfweb:v0.8.7
+        - image: holdenk/pcfweb:v0.9.9f
           name: pcfweb
           volumeMounts:
             - name: client-secret
@@ -89,6 +91,8 @@ spec:
           env:
           - name: OAUTHLIB_RELAX_TOKEN_SCOPE
             value: "1"
+          - name: ATOMIC_REQUESTS
+            value: "False"
           envFrom:
           - secretRef:
               name: pcfweb-secret
